@@ -4,5 +4,35 @@
 @theme static {
   --font-sans: 'Public Sans', sans-serif;
 
-  --color-primary1: red;
+  --color-primary-900: #5347A1;
+  --color-primary-800: #6657C6;
+  --color-primary-700: #7664E4;
+  --color-primary-600: #8470FF;
+  --color-primary-500: #A498FF;
+  --color-primary-400: #BFB7FF;
+  --color-primary-300: #D6D2FF;
+  --color-primary-200: #ECEAFF;
+  --color-primary-100: #F5F4FF;
+
+  --color-gray-900: #111113;
+  --color-gray-800: #222226;
+  --color-gray-700: #343438;
+  --color-gray-600: #45454B;
+  --color-gray-500: #56565E;
+  --color-gray-400: #82828C;
+  --color-gray-300: #A1A1A9;
+  --color-gray-200: #D0D0D4;
+  --color-gray-100: #EFEFF1;
+
+  --color-black: #000000;
+  --color-white: #FFFFFF;
+
+  --color-success-800: #297B32;
+  --color-success-200: #E5FAE6;
+
+  --color-warning-500: #F9970C;
+  --color-warning-200: #FEF4E1;
+
+  --color-danger-500: #E83838;
+  --color-danger-200: #FFEBEB;
 }
