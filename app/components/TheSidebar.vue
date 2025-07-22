@@ -77,15 +77,14 @@
                     <span class="text-sm" :class="{ 'hidden': isSideBarHidden }">Logout</span>
                 </div>
             </div>
-            <div class="flex items-center rounded-full bg-primary-100 border-1 border-primary-300 w-fit p-1 cursor-pointer"
-                @click="showToast">
-                <div class="flex justify-center items-center bg-primary-700 p-2 rounded-full">
+            <div class="flex items-center rounded-full bg-primary-100 border-1 border-primary-300 w-fit p-1 cursor-pointer">
+                <div v-if="!darkMode || !isSideBarHidden" class="flex justify-center items-center p-2 rounded-full transition-colors duration-300" :class="{'bg-primary-700' : !darkMode}" @click="toggleDarkMode">
                     <UIcon name="mingcute:sun-line" width="24" height="24"
-                        class="p-1 rounded-full bg--700 text-white" />
+                        class="p-1 rounded-full transition-colors duration-300" :class="{'text-white' : !darkMode}" />
                 </div>
-                <div class="flex justify-center items-center p-2 rounded-full">
+                <div v-if="darkMode || !isSideBarHidden" class="flex justify-center items-center p-2 rounded-full transition-colors duration-300" :class="{'bg-primary-700' : darkMode}" @click="toggleDarkMode">
                     <UIcon name="mingcute:moon-line" width="24" height="24"
-                        class="p-1 rounded-full transform -scale-x-100" />
+                        class="p-1 rounded-full transform -scale-x-100 transition-colors duration-300" :class="{'text-white' : darkMode}" />
                 </div>
             </div>
         </div>
@@ -95,27 +94,28 @@
 import { ref } from 'vue';
 import { UIcon } from '#components';
 
-const isSideBarHidden = ref(false);
+const isSideBarHidden = ref<boolean>(false);
 const toast = useToast();
+const darkMode = ref<boolean>(false);
 
 const toggleSidebar = () => {
     isSideBarHidden.value = !isSideBarHidden.value;
 };
 
-const showToast = () => {
-    console.log("toasted")
+const toggleDarkMode = () => {
+    darkMode.value = !darkMode.value;
     toast.add({
         title: 'Hold your horses!',
         description: 'This feature is still under construction. But hey, at least the button looks cool, right?',
-        color: 'warning'
+        color: 'info'
     });
 };
 
 const showLogoutToast = () => {
-    toast.add({
-        title: 'Logging out? Not so fast!',
-        description: 'Just kidding! This is a demo, so no actual logging out today. Maybe tomorrow?',
-        color: 'warning',
-    });
+  toast.add({
+    title: 'Logging out? Not so fast!',
+    description: 'Just kidding! This is a demo, so no actual logging out today. Maybe tomorrow?',
+    color: 'info'
+  });
 };
 </script>
