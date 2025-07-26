@@ -57,7 +57,6 @@
                                     )
                                 }}
                             </template>
-
                             <template v-else>
                                 {{
                                     df.format(
@@ -70,7 +69,6 @@
                         </template>
                         <template v-else> Pick a date </template>
                     </UButton>
-
                     <template #content>
                         <UCalendar
                             v-model="modelValue"

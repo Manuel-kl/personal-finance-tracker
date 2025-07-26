@@ -4,6 +4,7 @@
             :data="transactions"
             :columns="transactionsColumns"
             class="flex-1"
+            type=""
         />
     </div>
 </template>
@@ -16,6 +17,7 @@ type Transaction = {
     paymentName: string;
     method: string;
     category: string;
+    status?: string;
 };
 
 type Payment = {
@@ -24,6 +26,13 @@ type Payment = {
     paymentName: string;
     method: string;
     category: string;
+    status?: "pending" | "success" | "failed";
+};
+
+type TableColumn<T> = {
+    accessorKey: keyof T;
+    header: string;
+    cell?: (props: { row: { getValue: (key: keyof T) => any } }) => any;
 };
 
 defineProps({
@@ -50,17 +59,7 @@ const transactionsColumns: TableColumn<Payment>[] = [
         accessorKey: "amount",
         header: "Amount",
         cell: ({ row }) => {
-            const color = {
-                paid: "success" as const,
-                failed: "error" as const,
-                refunded: "neutral" as const,
-            }[row.getValue("amount") as string];
-
-            return h(
-                UBadge,
-                { class: "capitalize", variant: "subtle", color },
-                () => row.getValue("amount"),
-            );
+            return row.getValue("amount");
         },
     },
     {
@@ -82,6 +81,23 @@ const transactionsColumns: TableColumn<Payment>[] = [
         header: "Category",
         cell: ({ row }) => {
             return row.getValue("category");
+        },
+    },
+    {
+        accessorKey: "status",
+        header: "Status",
+        cell: ({ row }) => {
+            const color = {
+                success: "success" as const,
+                failed: "error" as const,
+                pending: "neutral" as const,
+            }[row.getValue("status") as string];
+
+            return h(
+                UBadge,
+                { class: "capitalize", variant: "subtle", color },
+                () => row.getValue("status"),
+            );
         },
     },
 ];

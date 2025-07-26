@@ -13,9 +13,7 @@ export default defineNuxtConfig({
   colorMode: {
     preference: "light",
     fallback: "light",
-    classSuffix: "",
     storageKey: "color-mode",
-    detectBrowserColorScheme: false,
   },
   css: ["~/assets/css/main.css"],
 
