@@ -18,15 +18,22 @@
                         <UCalendar v-model="modelValue" class="p-2 cursor-pointer" />
                     </template>
                 </UPopover>
-                <USelect v-model="selectedCategory" :items="categoryOptions" class="cursor-pointer"/>
+                <USelect v-model="selectedCategory" :items="categoryOptions" class="cursor-pointer" />
                 <USelect v-model="selectedMethod" :items="methodOptions" class="cursor-pointer" />
                 <USelect v-model="selectedStatus" :items="statusOptions" class="cursor-pointer" />
             </div>
 
-            <div class="">
-                <UButton color="primary" variant="solid" icon="i-heroicons-plus-circle-20-solid"
-                    class="ml-2 cursor-pointer" label="Add New Transaction" />
-                <UButton color="primary" variant="outline" icon="i-heroicons-arrow-down-tray-20-solid"
+            <div class="flex flex-row items-center">
+                <div>
+                    <UModal>
+                    <UButton label="Add New Transaction" color="primary" variant="subtle" class="cursor-pointer" />
+
+                    <template #content>
+                        <AddNewTransaction />
+                    </template>
+                </UModal>
+                </div>
+                <UButton color="primary" variant="subtle" icon="i-heroicons-arrow-down-tray-20-solid"
                     class="ml-2 cursor-pointer" label="Export CSV" />
             </div>
         </div>

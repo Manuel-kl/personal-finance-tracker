@@ -1,11 +1,6 @@
 <template>
     <div>
-        <UTable
-            :data="transactions"
-            :columns="transactionsColumns"
-            class="flex-1"
-            type=""
-        />
+        <UTable :data="transactions" :columns="transactionsColumns" class="flex-1" type="" />
     </div>
 </template>
 <script setup lang="ts">
