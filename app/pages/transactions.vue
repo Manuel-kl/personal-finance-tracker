@@ -25,15 +25,25 @@
 
             <div class="flex flex-row items-center">
                 <div>
-                    <UModal>
-                    <UButton label="Add New Transaction" color="primary" variant="subtle" class="cursor-pointer" />
+                    <UModal title="Add New Transaction" description="Add a new transaction to your account." :close="{
+                        color: 'primary',
+                        variant: 'outline',
+                        class: 'rounded-full cursor-pointer',
+                    }" :ui="{ footer: 'justify-end' }">
+                        <UButton label="Add New Transaction" color="primary" class="cursor-pointer" />
 
-                    <template #content>
-                        <AddNewTransaction />
-                    </template>
-                </UModal>
+                        <template #body>
+                            <AddNewTransaction />
+                        </template>
+
+                        <template #footer="{ close }">
+                            <UButton label="Cancel" color="neutral" variant="outline" @click="close"
+                                class="cursor-pointer" />
+                            <UButton label="Save Transaction" color="primary" class="cursor-pointer" />
+                        </template>
+                    </UModal>
                 </div>
-                <UButton color="primary" variant="subtle" icon="i-heroicons-arrow-down-tray-20-solid"
+                <UButton color="primary" icon="i-heroicons-arrow-down-tray-20-solid"
                     class="ml-2 cursor-pointer" label="Export CSV" />
             </div>
         </div>

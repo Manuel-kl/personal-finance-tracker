@@ -8,18 +8,11 @@
                 </p>
             </div>
             <div class="flex items-center gap-4">
-                <UButton
-                    icon="i-heroicons-bell"
-                    class="text-gray-500 bg-inherit hover:bg-inherit hover:text-primary-800 cursor-pointer"
-                />
-                <div
-                    class="flex items-center gap-1 border-1 border-gray-200 rounded-full px-1 py-1"
-                >
-                    <UAvatar
-                        alt="User"
-                        size="md"
-                        class="w-10 h-10 text-sm border bg-primary-800 text-white border-primary-800"
-                    >
+                <UButton icon="i-heroicons-bell"
+                    class="text-gray-500 bg-inherit hover:bg-inherit hover:text-primary-800 cursor-pointer" />
+                <div class="flex items-center gap-1 border-1 border-gray-200 rounded-full px-1 py-1">
+                    <UAvatar alt="User" size="md"
+                        class="w-10 h-10 text-sm border bg-primary-800 text-white border-primary-800">
                         AL
                     </UAvatar>
                     <div class="text-sm pr-3">
@@ -34,11 +27,7 @@
         <div class="flex flex-row justify-between items-center">
             <div class="flex items-center">
                 <UPopover>
-                    <UButton
-                        color="neutral"
-                        variant="subtle"
-                        icon="i-lucide-calendar"
-                    >
+                    <UButton color="neutral" variant="subtle" icon="i-lucide-calendar">
                         <template v-if="modelValue.start">
                             <template v-if="modelValue.end">
                                 {{
@@ -70,25 +59,16 @@
                         <template v-else> Pick a date </template>
                     </UButton>
                     <template #content>
-                        <UCalendar
-                            v-model="modelValue"
-                            class="p-2"
-                            :number-of-months="2"
-                            range
-                        />
+                        <UCalendar v-model="modelValue" class="p-2" :number-of-months="2" range />
                     </template>
                 </UPopover>
             </div>
             <div class="flex flex-row items-center gap-2">
-                <div
-                    class="bg-primary px-1 rounded-md text-white items-center flex"
-                >
+                <div class="bg-primary px-1 rounded-md text-white items-center flex">
                     <UIcon name="mingcute:table-fill" width="24" height="24" />
                     <UButton class="">Manage Widgets</UButton>
                 </div>
-                <div
-                    class="bg-primary px-1 rounded-md text-white items-center flex"
-                >
+                <div class="bg-primary px-1 rounded-md text-white items-center flex">
                     <UIcon name="i-heroicons-plus" width="24" height="24" />
                     <UButton class="">Add Widgets</UButton>
                 </div>
@@ -101,12 +81,7 @@
             <UCard class="col-span-2 w-full flex flex-col justify-between">
                 <div class="flex justify-between items-center mb-4">
                     <span class="font-semibold">Money flow</span>
-                    <UButton
-                        icon="i-heroicons-arrow-trending-up"
-                        color="neutral"
-                        variant="ghost"
-                        size="xs"
-                    />
+                    <UButton icon="i-heroicons-arrow-trending-up" color="neutral" variant="ghost" size="xs" />
                 </div>
                 <ChartsBarChart />
             </UCard>
@@ -114,12 +89,7 @@
             <UCard class="col-span-1">
                 <div class="flex justify-between items-center mb-4">
                     <span class="font-semibold">Budget</span>
-                    <UButton
-                        icon="i-heroicons-arrow-trending-up"
-                        color="neutral"
-                        variant="ghost"
-                        size="xs"
-                    />
+                    <UButton icon="i-heroicons-arrow-trending-up" color="neutral" variant="ghost" size="xs" />
                 </div>
                 <ChartsDoughnutChart />
             </UCard>
@@ -129,9 +99,7 @@
             <UCard class="col-span-2">
                 <div class="flex justify-between items-center mb-4">
                     <span class="font-semibold">Recent transactions</span>
-                    <UButton size="xs" color="neutral" variant="soft"
-                        >See all</UButton
-                    >
+                    <UButton size="xs" color="neutral" variant="soft">See all</UButton>
                 </div>
                 <TransactionsComponent :transactions="transactions" />
             </UCard>
@@ -139,12 +107,7 @@
             <UCard class="col-span-1">
                 <div class="flex justify-between items-center mb-4">
                     <span class="font-semibold">Saving goals</span>
-                    <UButton
-                        icon="i-heroicons-arrow-trending-up"
-                        color="neutral"
-                        variant="ghost"
-                        size="xs"
-                    />
+                    <UButton icon="i-heroicons-arrow-trending-up" color="neutral" variant="ghost" size="xs" />
                 </div>
                 <DashboardSavingGoals />
             </UCard>
