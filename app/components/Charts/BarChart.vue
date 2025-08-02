@@ -7,7 +7,6 @@
 <script setup lang="ts">
 import {
   Chart as ChartJS,
-  LineController,
   LineElement,
   PointElement,
   LinearScale,
