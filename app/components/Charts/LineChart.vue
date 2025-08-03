@@ -1,35 +1,31 @@
 <template>
   <div class="w-full h-[400px]">
-    <canvas ref="chartRef" class="w-full h-full"></canvas>
+    <Line :data="chartData" :options="chartOptions" />
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { Line } from 'vue-chartjs'
 import {
-  Chart,
-  LineController,
-  LineElement,
-  PointElement,
-  LinearScale,
+  Chart as ChartJS,
   Title,
   Tooltip,
   Legend,
-  CategoryScale
+  LineElement,
+  CategoryScale,
+  LinearScale,
+  PointElement
 } from 'chart.js'
 
-Chart.register(
-    LineController,
-    LineElement,
-    PointElement,
-    LinearScale,
-    Title,
-    Tooltip,
-    Legend,
-    CategoryScale
+ChartJS.register(
+  Title,
+  Tooltip,
+  Legend,
+  LineElement,
+  CategoryScale,
+  LinearScale,
+  PointElement
 )
-
-const chartRef = ref<HTMLCanvasElement | null>(null)
 
 const labels = Array.from({ length: 30 }, (_, i) => {
   const date = new Date()
@@ -44,12 +40,14 @@ const chartData = {
       label: 'Income',
       data: Array.from({ length: 30 }, () => Math.floor(Math.random() * 20000) + 500),
       borderColor: '#7664E4',
+      backgroundColor: 'rgba(118, 100, 228, 0.1)',
       tension: 0.4,
     },
     {
       label: 'Expenses',
       data: Array.from({ length: 30 }, () => Math.floor(Math.random() * 10000) + 500),
       borderColor: '#FF6384',
+      backgroundColor: 'rgba(255, 99, 132, 0.1)',
       tension: 0.4
     }
   ],
@@ -61,7 +59,7 @@ const chartOptions = {
   plugins: {
     legend: {
       display: true,
-      position: 'top'
+      position: 'top' as const
     },
     title: {
       display: true,
@@ -69,12 +67,11 @@ const chartOptions = {
     }
   },
   interaction: {
-    mode: 'index',
+    mode: 'index' as const,
     intersect: false
   },
   scales: {
     x: {
-      type: 'category',
       title: {
         display: true,
         text: 'Date'
@@ -88,14 +85,4 @@ const chartOptions = {
     }
   }
 }
-
-onMounted(() => {
-  if (!chartRef.value) return
-
-  new Chart(chartRef.value, {
-    type: 'line',
-    data: chartData,
-    options: chartOptions
-  })
-})
 </script>

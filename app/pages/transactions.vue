@@ -1,8 +1,6 @@
 <template>
     <div class="p-5 gap-4 flex flex-col">
-        <div>
-            <p>Overview of your activities</p>
-        </div>
+        <NavBar :header="'Transactions'" :description="'Overview of your activities'" />
         <div class="flex flex-row justify-between w-full">
             <div class="flex flex-row gap-2">
                 <UPopover>
@@ -43,8 +41,8 @@
                         </template>
                     </UModal>
                 </div>
-                <UButton color="primary" icon="i-heroicons-arrow-down-tray-20-solid"
-                    class="ml-2 cursor-pointer" label="Export CSV" />
+                <UButton color="primary" icon="i-heroicons-arrow-down-tray-20-solid" class="ml-2 cursor-pointer"
+                    label="Export CSV" />
             </div>
         </div>
 
@@ -53,8 +51,6 @@
 </template>
 
 <script setup lang="ts">
-import TransactionsComponent from "~/components/TransactionsComponent.vue";
-import { ref, shallowRef } from "vue";
 import {
     CalendarDate,
     DateFormatter,

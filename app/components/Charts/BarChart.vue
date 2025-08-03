@@ -1,116 +1,212 @@
 <template>
-  <div class="h-[400px]">
-    <canvas ref="chartCanvas" />
-  </div>
+    <div class="flex flex-col justify-between w-full h-full pb-10">
+        <div class="flex gap-4 mb-4 justify-end">
+            <USelectMenu
+                v-model="selectedAccount"
+                :items="accountOptions"
+                size="sm"
+                placeholder="Select Account"
+                @change="generateChartData"
+            />
+            <UPopover v-model:open="open" :popper="{ placement: 'bottom-end' }">
+                <UButton
+                    color="neutral"
+                    variant="outline"
+                    icon="i-heroicons-calendar-days-20-solid"
+                    :label="selectedYear.toString()"
+                />
+                <template #content>
+                    <YearPicker
+                        v-model="selectedYear"
+                        @update:modelValue="generateChartData"
+                        @year-selected="closePopover"
+                    />
+                </template>
+            </UPopover>
+        </div>
+        <Bar :data="chartData" />
+    </div>
 </template>
 
 <script setup lang="ts">
+import { Bar } from "vue-chartjs";
 import {
-  Chart as ChartJS,
-  LineElement,
-  PointElement,
-  LinearScale,
-  CategoryScale,
-  Tooltip,
-  Legend,
-  Title
-} from 'chart.js'
+    Chart as ChartJS,
+    Title,
+    Tooltip,
+    Legend,
+    BarElement,
+    CategoryScale,
+    LinearScale,
+} from "chart.js";
+import YearPicker from "~/components/YearPicker.vue";
 
 ChartJS.register(
-  LineElement,
-  PointElement,
-  LinearScale,
-  CategoryScale,
-  Tooltip,
-  Legend,
-  Title
-)
+    Title,
+    Tooltip,
+    Legend,
+    BarElement,
+    CategoryScale,
+    LinearScale,
+);
 
-const chartCanvas = ref<HTMLCanvasElement | null>(null)
-let chartInstance: ChartJS | null = null
-
-const generateChartData = () => {
-  const labels = Array.from({ length: 30 }, (_, i) => {
-    const date = new Date()
-    date.setDate(date.getDate() - (29 - i))
-    return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
-  })
-
-  const incomeData = Array.from({ length: 30 }, () => Math.floor(Math.random() * 20000) + 500)
-  const expensesData = Array.from({ length: 30 }, () => Math.floor(Math.random() * 10000) + 500)
-
-  return {
-    labels,
-    datasets: [
-      {
-        label: 'Income',
-        data: incomeData,
-        borderColor: '#7664E4',
-        backgroundColor: 'rgba(118, 100, 228, 0.2)',
-        fill: true,
-        tension: 0.4
-      },
-      {
-        label: 'Expenses',
-        data: expensesData,
-        borderColor: '#FF6384',
-        backgroundColor: 'rgba(255, 99, 132, 0.2)',
-        fill: true,
-        tension: 0.4
-      }
-    ]
-  }
+interface ChartData {
+    labels: string[];
+    datasets: {
+        label: string;
+        backgroundColor: string;
+        data: (number | null)[];
+    }[];
 }
+const open = ref<boolean>(false);
+const chartData = ref<ChartData>({ labels: [], datasets: [] });
 
-const renderChart = () => {
-  if (!chartCanvas.value) return
+const selectedAccount = ref("All Accounts");
+const selectedYear = ref(new Date().getFullYear());
+const isYearExplicitlySelected = ref(false);
+const accountOptions = ref([
+    "All Accounts",
+    "Account A",
+    "Account B",
+    "Account C",
+]);
 
-  const ctx = chartCanvas.value.getContext('2d')
-  if (!ctx) return
-
-  if (chartInstance) {
-    chartInstance.destroy()
-  }
-
-  chartInstance = new ChartJS(ctx, {
-    type: 'line',
-    data: generateChartData(),
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      plugins: {
-        legend: {
-          display: true,
-          position: 'top'
-        },
-        title: {
-          display: false
-        }
-      },
-      interaction: {
-        mode: 'index',
-        intersect: false
-      },
-      scales: {
-        x: {
-          type: 'category',
-          title: {
-            display: true,
-            text: 'Date'
-          }
-        },
-        y: {
-          title: {
-            display: true,
-            text: 'Amount (KES)'
-          },
-        }
-      }
-    }
-  })
+const closePopover = () => {
+    open.value = false;
+    isYearExplicitlySelected.value = true;
 };
 
-onMounted(() => {
-  renderChart()
-});
+const generateChartData = () => {
+    const labels = [];
+    const incomeData = [];
+    const expenseData = [];
+    const today = new Date();
+
+    if (
+        selectedYear.value === today.getFullYear() &&
+        !isYearExplicitlySelected.value
+    ) {
+        for (let i = 11; i >= 0; i--) {
+            const date = new Date(today.getFullYear(), today.getMonth() - i, 1);
+            labels.push(date.toLocaleString("default", { month: "short" }));
+            incomeData.push(
+                getDummyData(
+                    selectedAccount.value,
+                    date.getMonth(),
+                    selectedYear.value,
+                    "income",
+                ),
+            );
+            expenseData.push(
+                getDummyData(
+                    selectedAccount.value,
+                    date.getMonth(),
+                    selectedYear.value,
+                    "expense",
+                ),
+            );
+        }
+
+        const nextMonthDate = new Date(
+            today.getFullYear(),
+            today.getMonth() + 1,
+            1,
+        );
+        labels.push(
+            nextMonthDate.toLocaleString("default", { month: "short" }),
+        );
+        incomeData.push(null);
+        expenseData.push(null);
+    } else {
+        for (let i = 0; i < 12; i++) {
+            const date = new Date(selectedYear.value, i, 1);
+            labels.push(date.toLocaleString("default", { month: "short" }));
+            incomeData.push(
+                getDummyData(
+                    selectedAccount.value,
+                    i,
+                    selectedYear.value,
+                    "income",
+                ),
+            );
+            expenseData.push(
+                getDummyData(
+                    selectedAccount.value,
+                    i,
+                    selectedYear.value,
+                    "expense",
+                ),
+            );
+        }
+    }
+
+    chartData.value = {
+        labels: labels,
+        datasets: [
+            {
+                label: "Income",
+                backgroundColor: "#7664E4",
+                data: incomeData,
+            },
+            {
+                label: "Expense",
+                backgroundColor: "#BFB7FF",
+                data: expenseData,
+            },
+        ],
+    };
+};
+
+const getDummyData = (
+    account: string,
+    month: number,
+    year: number,
+    type: "income" | "expense",
+) => {
+    let seed = month + year;
+    if (account === "Account A") seed += 100;
+    if (account === "Account B") seed += 200;
+    if (account === "Account C") seed += 300;
+
+    Math.seedrandom(seed.toString());
+
+    if (type === "income") {
+        return Math.floor(Math.random() * 300) + 100;
+    } else {
+        return Math.floor(Math.random() * 200) + 50;
+    }
+};
+
+declare global {
+    interface Math {
+        seedrandom: (seed: string) => () => number;
+    }
+}
+
+Math.seedrandom =
+    Math.seedrandom ||
+    (function (seed: string) {
+        let x = 0;
+        for (let i = 0; i < seed.length; i++) {
+            x = (x << 5) - x + seed.charCodeAt(i);
+            x |= 0;
+        }
+        return function () {
+            x = Math.sin(x++) * 10000;
+            return x - Math.floor(x);
+        };
+    })(new Date().getTime().toString());
+
+generateChartData();
+
+import { watch } from "vue";
+watch(
+    [selectedAccount, selectedYear],
+    ([newAccount, newYear], [oldAccount, oldYear]) => {
+        if (newYear !== oldYear) {
+            isYearExplicitlySelected.value = true;
+        }
+        generateChartData();
+    },
+);
 </script>

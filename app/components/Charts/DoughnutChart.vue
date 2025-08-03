@@ -1,13 +1,10 @@
 <template>
-  <div style="display: flex; flex-direction: row; align-items: flex-start; gap: 20px;">
-    <div style="height: 300px; flex: 1;">
-      <Doughnut :data="chartData" :options="chartOptions" />
-    </div>
+  <div class="h-full flex items-end">
+      <Doughnut :data="chartData" />
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
 import { Doughnut } from 'vue-chartjs'
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js'
 
@@ -43,24 +40,5 @@ const chartData = ref<DoughnutChartData>({
       data: [400, 250, 300, 150, 100, 500, 800, 120, 300, 180]
     }
   ]
-});
-
-const chartOptions = ref({
-  responsive: true,
-  maintainAspectRatio: false,
-  plugins: {
-    legend: {
-      position: 'left',
-    },
-    tooltip: {
-      callbacks: {
-        label: (context) => {
-          const label = context.label || '';
-          const value = context.raw;
-          return `${label}: $${value}`;
-        }
-      }
-    }
-  }
 });
 </script>

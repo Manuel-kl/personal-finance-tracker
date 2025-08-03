@@ -1,29 +1,6 @@
 <template>
     <div class="flex flex-col p-5 bg-gray-100 min-h-screen gap-5">
-        <div class="flex justify-between items-center pb-2">
-            <div>
-                <h1 class="text-2xl font-bold mb-1">Welcome back, Manuel!</h1>
-                <p class="text-gray-300 text-sm">
-                    It is the best time to manage your finances
-                </p>
-            </div>
-            <div class="flex items-center gap-4">
-                <UButton icon="i-heroicons-bell"
-                    class="text-gray-500 bg-inherit hover:bg-inherit hover:text-primary-800 cursor-pointer" />
-                <div class="flex items-center gap-1 border-1 border-gray-200 rounded-full px-1 py-1">
-                    <UAvatar alt="User" size="md"
-                        class="w-10 h-10 text-sm border bg-primary-800 text-white border-primary-800">
-                        AL
-                    </UAvatar>
-                    <div class="text-sm pr-3">
-                        <div class="font-semibold">Manuel Langat</div>
-                        <div class="text-gray-400">
-                            mannuehkipkirui@gmail.com
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <NavBar :header="'Welcome back, Manuel!'" :description="'It is the best time to manage your finances'" />
         <div class="flex flex-row justify-between items-center">
             <div class="flex items-center">
                 <UPopover>
@@ -86,7 +63,7 @@
                 <ChartsBarChart />
             </UCard>
 
-            <UCard class="col-span-1">
+            <UCard class="col-span-1 w-full flex flex-col justify-between">
                 <div class="flex justify-between items-center mb-4">
                     <span class="font-semibold">Budget</span>
                     <UButton icon="i-heroicons-arrow-trending-up" color="neutral" variant="ghost" size="xs" />
@@ -147,6 +124,7 @@ type Payment = {
     paymentName: string;
     method: string;
     category: string;
+    status?: "pending" | "success" | "failed";
 };
 
 const transactions = ref<Payment[]>([
@@ -156,6 +134,7 @@ const transactions = ref<Payment[]>([
         paymentName: "Spotify",
         method: "Mpesa",
         category: "Subscription",
+        status: 'success'
     },
     {
         date: "2024-03-10T09:15:00",
@@ -163,6 +142,7 @@ const transactions = ref<Payment[]>([
         paymentName: "Grocery Shopping",
         method: "Card",
         category: "Food",
+        status: 'pending'
     },
     {
         date: "2024-03-09T18:45:00",
@@ -170,6 +150,7 @@ const transactions = ref<Payment[]>([
         paymentName: "Uber Ride",
         method: "Mpesa",
         category: "Transport",
+        status: 'success'
     },
     {
         date: "2024-03-08T12:20:00",
@@ -177,6 +158,7 @@ const transactions = ref<Payment[]>([
         paymentName: "Netflix",
         method: "Card",
         category: "Subscription",
+        status: 'success'
     },
     {
         date: "2024-03-07T14:30:00",
@@ -184,6 +166,7 @@ const transactions = ref<Payment[]>([
         paymentName: "Electricity Bill",
         method: "Bank Transfer",
         category: "Utilities",
+        status: 'failed'
     },
 ]);
 </script>
